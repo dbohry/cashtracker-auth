@@ -4,6 +4,9 @@ import com.lhamacorp.cashtrackerauth.entity.User;
 import com.lhamacorp.cashtrackerauth.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,20 +15,27 @@ import java.util.Date;
 
 @CrossOrigin(origins = "http://localhost", maxAge = 3600)
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/auth/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
+    @CrossOrigin(allowedHeaders = "*")
+    @ApiOperation(value = "Try to register", response = User.class)
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public User register(@RequestBody User user) {
         return userService.save(user);
     }
 
+    @CrossOrigin(allowedHeaders = "*")
+    @ApiOperation(value = "Try to authenticate", response = String.class)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@RequestBody User login) throws ServletException {
+        return getToken(login);
+    }
 
+    private String getToken(User login) throws ServletException {
         String jwtToken;
 
         if (login.getEmail() == null || login.getPassword() == null) {
