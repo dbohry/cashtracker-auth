@@ -23,4 +23,8 @@ public class UserService {
         return repository.findByEmail(email);
     }
 
+    public User findByLogin(User user) {
+        return repository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+    }
+
 }

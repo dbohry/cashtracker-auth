@@ -1,6 +1,7 @@
 package com.lhamacorp.cashtrackerauth.controller;
 
 import com.lhamacorp.cashtrackerauth.entity.User;
+import com.lhamacorp.cashtrackerauth.service.AuthService;
 import com.lhamacorp.cashtrackerauth.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -8,9 +9,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
+import javax.xml.bind.ValidationException;
+import java.util.Collections;
 import java.util.Date;
 
 @CrossOrigin(origins = "http://localhost", maxAge = 3600)
@@ -18,8 +23,14 @@ import java.util.Date;
 @RequestMapping("/auth/user")
 public class UserController {
 
-    @Autowired
     private UserService userService;
+    private AuthService authService;
+
+    @Autowired
+    public UserController(UserService userService, AuthService authService) {
+        this.userService = userService;
+        this.authService = authService;
+    }
 
     @CrossOrigin(allowedHeaders = "*")
     @ApiOperation(value = "Try to register", response = User.class)
@@ -31,36 +42,9 @@ public class UserController {
     @CrossOrigin(allowedHeaders = "*")
     @ApiOperation(value = "Try to authenticate", response = String.class)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@RequestBody User login) throws ServletException {
-        return getToken(login);
-    }
-
-    private String getToken(User login) throws ServletException {
-        String jwtToken;
-
-        if (login.getEmail() == null || login.getPassword() == null) {
-            throw new ServletException("Please fill in username and password");
-        }
-
-        String email = login.getEmail();
-        String password = login.getPassword();
-
-        User user = userService.findByEmail(email);
-
-        if (user == null) {
-            throw new ServletException("User email not found.");
-        }
-
-        String pwd = user.getPassword();
-
-        if (!password.equals(pwd)) {
-            throw new ServletException("Invalid login. Please check your name and password.");
-        }
-
-        jwtToken = Jwts.builder().setSubject(email).claim("roles", "user").setIssuedAt(new Date())
-                .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
-
-        return jwtToken;
+    public ResponseEntity<String> login(@RequestBody User login) throws ValidationException {
+        String response = authService.getToken(login);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }
