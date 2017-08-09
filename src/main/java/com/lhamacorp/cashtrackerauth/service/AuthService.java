@@ -42,7 +42,7 @@ public class AuthService {
     }
 
     private String encode(String pass) {
-        return DigestUtils.sha1Hex(pass);
+        return DigestUtils.sha256Hex(pass);
     }
 
 }
