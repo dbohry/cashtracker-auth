@@ -17,18 +17,21 @@ public class AuthService {
 
     private UserService userService;
     private AuthValidator validator;
+    private PasswordBuilder passwordBuilder;
 
     @Autowired
     public AuthService(UserService userService,
-                       AuthValidator validator) {
+                       AuthValidator validator,
+                       PasswordBuilder passwordBuilder) {
         this.userService = userService;
         this.validator = validator;
+        this.passwordBuilder = passwordBuilder;
     }
 
     public String getToken(User login) throws ValidationException {
         validator.validate(login);
 
-        String hash = encode(login.getPassword());
+        String hash = passwordBuilder.encode(login.getPassword());
 
         User user = userService.findByLogin(new User(login.getEmail(), hash));
 
@@ -39,10 +42,6 @@ public class AuthService {
 
         return Jwts.builder().setSubject(login.getEmail()).claim("roles", "user").setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
-    }
-
-    private String encode(String pass) {
-        return DigestUtils.sha256Hex(pass);
     }
 
 }
