@@ -4,34 +4,34 @@ import com.lhamacorp.cashtrackerauth.entity.User;
 import com.lhamacorp.cashtrackerauth.validator.AuthValidator;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.ValidationException;
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class AuthService {
 
     private UserService userService;
     private AuthValidator validator;
-    private PasswordBuilder passwordBuilder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public AuthService(UserService userService,
                        AuthValidator validator,
-                       PasswordBuilder passwordBuilder) {
+                       PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.validator = validator;
-        this.passwordBuilder = passwordBuilder;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public String getToken(User login) throws ValidationException {
         validator.validate(login);
 
-        String hash = passwordBuilder.encode(login.getPassword());
+        String hash = passwordEncoder.encode(login.getPassword());
 
         User user = userService.findByLogin(new User(login.getEmail(), hash));
 
@@ -40,8 +40,12 @@ public class AuthService {
         if (!Objects.equals(hash, user.getPassword()))
             throw new ValidationException("Login failed, pls try again.");
 
-        return Jwts.builder().setSubject(login.getEmail()).claim("roles", "user").setIssuedAt(new Date())
-                .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
+        return Jwts.builder()
+                .setSubject(login.getEmail())
+                .claim("roles", user.getRoles().toString())
+                .setIssuedAt(new Date())
+                .signWith(SignatureAlgorithm.HS256, "secretkey")
+                .compact();
     }
 
 }

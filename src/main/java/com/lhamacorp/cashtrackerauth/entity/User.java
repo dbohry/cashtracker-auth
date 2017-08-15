@@ -5,6 +5,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -16,6 +18,16 @@ public class User {
     private String email;
     private String username;
     private String password;
+    private Boolean enabled;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles;
 
     public Long getId() {
         return id;
@@ -49,12 +61,37 @@ public class User {
         this.password = password;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
     public User() {
     }
 
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public User(Long id, String email, String username, String password, Boolean enabled, List<Role> roles) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.roles = roles;
     }
 
     @Override
@@ -70,6 +107,8 @@ public class User {
                 .append(email, user.email)
                 .append(username, user.username)
                 .append(password, user.password)
+                .append(enabled, user.enabled)
+                .append(roles, user.roles)
                 .isEquals();
     }
 
@@ -80,6 +119,8 @@ public class User {
                 .append(email)
                 .append(username)
                 .append(password)
+                .append(enabled)
+                .append(roles)
                 .toHashCode();
     }
 
@@ -90,6 +131,8 @@ public class User {
                 .append("email", email)
                 .append("username", username)
                 .append("password", password)
+                .append("enabled", enabled)
+                .append("roles", roles)
                 .toString();
     }
 }
