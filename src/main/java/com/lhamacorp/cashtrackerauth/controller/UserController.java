@@ -1,8 +1,8 @@
 package com.lhamacorp.cashtrackerauth.controller;
 
-import com.lhamacorp.cashtrackerauth.entity.User;
-import com.lhamacorp.cashtrackerauth.entity.UserConverter;
-import com.lhamacorp.cashtrackerauth.entity.UserDTO;
+import com.lhamacorp.cashtrackerauth.entity.user.User;
+import com.lhamacorp.cashtrackerauth.entity.user.UserConverter;
+import com.lhamacorp.cashtrackerauth.entity.user.UserDTO;
 import com.lhamacorp.cashtrackerauth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

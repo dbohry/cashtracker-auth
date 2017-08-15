@@ -1,22 +1,15 @@
 package com.lhamacorp.cashtrackerauth.controller;
 
-import com.lhamacorp.cashtrackerauth.entity.User;
+import com.lhamacorp.cashtrackerauth.entity.user.User;
 import com.lhamacorp.cashtrackerauth.service.AuthService;
 import com.lhamacorp.cashtrackerauth.service.UserService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletException;
 import javax.xml.bind.ValidationException;
-import java.util.Collections;
-import java.util.Date;
 
 @CrossOrigin(origins = "http://localhost", maxAge = 3600)
 @RestController

@@ -1,4 +1,4 @@
-package com.lhamacorp.cashtrackerauth.entity;
+package com.lhamacorp.cashtrackerauth.entity.user;
 
 public class UserDTO {
 

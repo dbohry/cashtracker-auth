@@ -1,5 +1,6 @@
-package com.lhamacorp.cashtrackerauth.entity;
+package com.lhamacorp.cashtrackerauth.entity.privilege;
 
+import com.lhamacorp.cashtrackerauth.entity.role.Role;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -8,29 +9,21 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Role {
+public class Privilege {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users;
 
-    @ManyToMany
-    @JoinTable(
-            name = "roles_privileges",
-            joinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "privilege_id", referencedColumnName = "id"))
-    private List<Privilege> privileges;
+    @ManyToMany(mappedBy = "privileges")
+    private List<Role> roles;
 
-    public Role() {
+    public Privilege() {
     }
 
-    public Role(String name) {
+    public Privilege(String name) {
         this.name = name;
     }
 
@@ -50,20 +43,12 @@ public class Role {
         this.name = name;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public List<Privilege> getPrivileges() {
-        return privileges;
-    }
-
-    public void setPrivileges(List<Privilege> privileges) {
-        this.privileges = privileges;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
@@ -72,13 +57,12 @@ public class Role {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        Role role = (Role) o;
+        Privilege privilege = (Privilege) o;
 
         return new EqualsBuilder()
-                .append(id, role.id)
-                .append(name, role.name)
-                .append(users, role.users)
-                .append(privileges, role.privileges)
+                .append(id, privilege.id)
+                .append(name, privilege.name)
+                .append(roles, privilege.roles)
                 .isEquals();
     }
 
@@ -87,8 +71,7 @@ public class Role {
         return new HashCodeBuilder(17, 37)
                 .append(id)
                 .append(name)
-                .append(users)
-                .append(privileges)
+                .append(roles)
                 .toHashCode();
     }
 
@@ -97,8 +80,7 @@ public class Role {
         return new ToStringBuilder(this)
                 .append("id", id)
                 .append("name", name)
-                .append("users", users)
-                .append("privileges", privileges)
+                .append("roles", roles)
                 .toString();
     }
 }

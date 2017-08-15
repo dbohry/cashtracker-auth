@@ -1,5 +1,6 @@
-package com.lhamacorp.cashtrackerauth.entity;
+package com.lhamacorp.cashtrackerauth.entity.user;
 
+import com.lhamacorp.cashtrackerauth.entity.role.Role;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;

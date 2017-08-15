@@ -1,6 +1,6 @@
 package com.lhamacorp.cashtrackerauth.validator;
 
-import com.lhamacorp.cashtrackerauth.entity.User;
+import com.lhamacorp.cashtrackerauth.entity.user.User;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.ValidationException;

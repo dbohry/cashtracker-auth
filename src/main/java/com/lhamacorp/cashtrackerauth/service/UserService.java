@@ -1,7 +1,7 @@
 package com.lhamacorp.cashtrackerauth.service;
 
-import com.lhamacorp.cashtrackerauth.entity.User;
-import com.lhamacorp.cashtrackerauth.entity.UserRepository;
+import com.lhamacorp.cashtrackerauth.entity.user.User;
+import com.lhamacorp.cashtrackerauth.entity.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

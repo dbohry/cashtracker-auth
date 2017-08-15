@@ -1,6 +1,6 @@
 package com.lhamacorp.cashtrackerauth.service;
 
-import com.lhamacorp.cashtrackerauth.entity.User;
+import com.lhamacorp.cashtrackerauth.entity.user.User;
 import com.lhamacorp.cashtrackerauth.validator.AuthValidator;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import javax.xml.bind.ValidationException;
 import java.util.Date;
 import java.util.Objects;
-import java.util.UUID;
 
 @Service
 public class AuthService {
