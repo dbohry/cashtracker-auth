@@ -32,16 +32,18 @@ public class UserController {
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
     public ResponseEntity<UserDTO> update(@PathVariable("id") Long id,
-                                          @RequestBody UserDTO userDTO,
+                                          @RequestBody User user,
                                           @RequestHeader("authorization") String token) {
-        User response = service.save(converter.convert(userDTO));
+        user.setId(id);
+        User response = service.update((user));
         return ResponseEntity.status(HttpStatus.OK).body(converter.convert(response));
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") Long id,
-                       @RequestHeader("authorization") String token) {
+    public ResponseEntity<String> delete(@PathVariable("id") Long id,
+                                         @RequestHeader("authorization") String token) {
         service.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).body("");
     }
 
 }

@@ -32,6 +32,12 @@ public class UserService {
         return repository.save(user);
     }
 
+    public User update(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(Boolean.TRUE);
+        return repository.save(user);
+    }
+
     public User get(Long id) {
         return repository.findOne(id);
     }
