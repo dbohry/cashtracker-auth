@@ -7,7 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.bind.ValidationException;
+import javax.servlet.ServletException;
 import java.util.Date;
 import java.util.Objects;
 
@@ -27,16 +27,16 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public String getToken(User login) throws ValidationException {
+    public String getToken(User login) throws ServletException {
         validator.validate(login);
 
         String hash = passwordEncoder.encode(login.getPassword());
         User user = userService.findByLogin(login.getUsername(), hash);
 
-        if (user == null) throw new ValidationException("User not found.");
+        if (user == null) throw new ServletException("User not found.");
 
         if (!Objects.equals(hash, user.getPassword()))
-            throw new ValidationException("Login failed, pls try again.");
+            throw new ServletException("Login failed, pls try again.");
 
         return Jwts.builder()
                 .setSubject(login.getEmail())

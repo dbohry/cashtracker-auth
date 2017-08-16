@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
 import javax.xml.bind.ValidationException;
 
 @CrossOrigin(origins = "http://localhost", maxAge = 3600)
@@ -42,7 +43,7 @@ public class LoginController {
     @CrossOrigin(allowedHeaders = "*")
     @ApiOperation(value = "Inform username and password to get a valid token", response = String.class)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<String> login(@RequestBody UserDTO dto) throws ValidationException {
+    public ResponseEntity<String> login(@RequestBody UserDTO dto) throws ServletException {
         String response = authService.getToken(converter.convert(dto));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
