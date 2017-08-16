@@ -31,8 +31,7 @@ public class AuthService {
         validator.validate(login);
 
         String hash = passwordEncoder.encode(login.getPassword());
-
-        User user = userService.findByLogin(new User(login.getEmail(), hash));
+        User user = userService.findByLogin(login.getUsername(), hash);
 
         if (user == null) throw new ValidationException("User not found.");
 

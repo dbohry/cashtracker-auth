@@ -32,9 +32,9 @@ public class UserController {
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
     public ResponseEntity<UserDTO> update(@PathVariable("id") Long id,
-                       @RequestBody User user,
-                       @RequestHeader("authorization") String token) {
-        User response = service.save(user);
+                                          @RequestBody UserDTO userDTO,
+                                          @RequestHeader("authorization") String token) {
+        User response = service.save(converter.convert(userDTO));
         return ResponseEntity.status(HttpStatus.OK).body(converter.convert(response));
     }
 

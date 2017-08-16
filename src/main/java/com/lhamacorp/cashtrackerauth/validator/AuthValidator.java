@@ -9,7 +9,7 @@ import javax.xml.bind.ValidationException;
 public class AuthValidator {
 
     public void validate(User login) throws ValidationException {
-        if (login.getEmail() == null || login.getPassword() == null) {
+        if (login.getUsername() == null || login.getPassword() == null) {
             throw new ValidationException("User and password must be not null.");
         }
     }

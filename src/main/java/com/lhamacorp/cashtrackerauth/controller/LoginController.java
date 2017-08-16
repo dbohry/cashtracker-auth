@@ -1,6 +1,8 @@
 package com.lhamacorp.cashtrackerauth.controller;
 
 import com.lhamacorp.cashtrackerauth.entity.user.User;
+import com.lhamacorp.cashtrackerauth.entity.user.UserConverter;
+import com.lhamacorp.cashtrackerauth.entity.user.UserDTO;
 import com.lhamacorp.cashtrackerauth.service.AuthService;
 import com.lhamacorp.cashtrackerauth.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -18,25 +20,30 @@ public class LoginController {
 
     private UserService userService;
     private AuthService authService;
+    private UserConverter converter;
 
     @Autowired
-    public LoginController(UserService userService, AuthService authService) {
+    public LoginController(UserService userService,
+                           AuthService authService,
+                           UserConverter converter) {
         this.userService = userService;
         this.authService = authService;
+        this.converter = converter;
     }
 
     @CrossOrigin(allowedHeaders = "*")
-    @ApiOperation(value = "Try to register", response = User.class)
+    @ApiOperation(value = "Inform the parameters to register a new user", response = User.class)
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public User register(@RequestBody User user) {
-        return userService.save(user);
+    public ResponseEntity<UserDTO> register(@RequestBody UserDTO user) {
+        User response = userService.save(converter.convert(user));
+        return ResponseEntity.status(HttpStatus.OK).body(converter.convert(response));
     }
 
     @CrossOrigin(allowedHeaders = "*")
-    @ApiOperation(value = "Try to authenticate", response = String.class)
+    @ApiOperation(value = "Inform username and password to get a valid token", response = String.class)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<String> login(@RequestBody User login) throws ValidationException {
-        String response = authService.getToken(login);
+    public ResponseEntity<String> login(@RequestBody UserDTO dto) throws ValidationException {
+        String response = authService.getToken(converter.convert(dto));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

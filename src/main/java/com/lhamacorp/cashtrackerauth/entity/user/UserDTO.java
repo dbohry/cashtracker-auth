@@ -10,7 +10,6 @@ public class UserDTO {
     private String email;
     private String username;
     private String password;
-    private Boolean enabled;
 
     public Long getId() {
         return id;
@@ -44,14 +43,6 @@ public class UserDTO {
         this.password = password;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,7 +56,6 @@ public class UserDTO {
                 .append(email, userDTO.email)
                 .append(username, userDTO.username)
                 .append(password, userDTO.password)
-                .append(enabled, userDTO.enabled)
                 .isEquals();
     }
 
@@ -76,7 +66,6 @@ public class UserDTO {
                 .append(email)
                 .append(username)
                 .append(password)
-                .append(enabled)
                 .toHashCode();
     }
 
@@ -87,7 +76,6 @@ public class UserDTO {
                 .append("email", email)
                 .append("username", username)
                 .append("password", password)
-                .append("enabled", enabled)
                 .toString();
     }
 }

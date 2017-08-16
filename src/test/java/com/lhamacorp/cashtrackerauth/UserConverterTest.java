@@ -27,7 +27,7 @@ public class UserConverterTest {
 
     @Test
     public void deveValidarQuandoNulo() {
-        assertThat(converter.convert(null), is(nullValue()));
+        assertThat(converter.convert((User) null), is(nullValue()));
     }
 
     @Test
@@ -44,7 +44,6 @@ public class UserConverterTest {
         UserDTO dto = new UserDTO();
 
         dto.setEmail(EMAIL);
-        dto.setEnabled(ENABLED);
         dto.setId(ID);
         dto.setPassword(PASSWORD);
         dto.setUsername(USERNAME);

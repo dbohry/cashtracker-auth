@@ -14,9 +14,21 @@ public class UserConverter {
         dto.setEmail(bo.getEmail());
         dto.setUsername(bo.getUsername());
         dto.setPassword(bo.getPassword());
-        dto.setEnabled(bo.getEnabled());
 
         return dto;
+    }
+
+    public User convert(UserDTO dto) {
+        if (dto == null) return null;
+
+        User bo = new User();
+
+        bo.setId(dto.getId());
+        bo.setEmail(dto.getEmail());
+        bo.setUsername(dto.getUsername());
+        bo.setPassword(dto.getPassword());
+
+        return bo;
     }
 
 }
