@@ -1,6 +1,11 @@
 //package com.lhamacorp.cashtrackerauth.config;
 //
-//import com.lhamacorp.cashtrackerauth.entity.*;
+//import com.lhamacorp.cashtrackerauth.entity.privilege.Privilege;
+//import com.lhamacorp.cashtrackerauth.entity.privilege.PrivilegeRepository;
+//import com.lhamacorp.cashtrackerauth.entity.role.Role;
+//import com.lhamacorp.cashtrackerauth.entity.role.RoleRepository;
+//import com.lhamacorp.cashtrackerauth.entity.user.User;
+//import com.lhamacorp.cashtrackerauth.entity.user.UserRepository;
 //import com.lhamacorp.cashtrackerauth.service.PasswordEncoder;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.ApplicationListener;
