@@ -13,7 +13,6 @@ import static org.hamcrest.Matchers.nullValue;
 public class UserConverterTest {
 
     private static final String EMAIL = "email";
-    private static final Boolean ENABLED = Boolean.TRUE;
     private static final Long ID = 1L;
     private static final String PASSWORD = "pass";
     private static final String USERNAME = "user";
@@ -28,16 +27,23 @@ public class UserConverterTest {
     @Test
     public void deveValidarQuandoNulo() {
         assertThat(converter.convert((User) null), is(nullValue()));
+        assertThat(converter.convert((UserDTO) null), is(nullValue()));
     }
 
     @Test
     public void deveValidarQuandoNew() {
         assertThat(converter.convert(new User()), is(new UserDTO()));
+        assertThat(converter.convert(new UserDTO()), is(new User()));
     }
 
     @Test
     public void deveConverterParaDTO() {
         assertThat(converter.convert(buildBO()), is(buildDTO()));
+    }
+
+    @Test
+    public void deveConverterParaBO() {
+        assertThat(converter.convert(buildDTO()), is(buildBO()));
     }
 
     private UserDTO buildDTO() {
@@ -55,7 +61,6 @@ public class UserConverterTest {
         User bo = new User();
 
         bo.setEmail(EMAIL);
-        bo.setEnabled(ENABLED);
         bo.setId(ID);
         bo.setPassword(PASSWORD);
         bo.setUsername(USERNAME);
