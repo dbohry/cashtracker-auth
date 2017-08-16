@@ -31,10 +31,11 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
-    public User update(@PathVariable("id") Long id,
+    public ResponseEntity<UserDTO> update(@PathVariable("id") Long id,
                        @RequestBody User user,
                        @RequestHeader("authorization") String token) {
-        return service.save(user);
+        User response = service.save(user);
+        return ResponseEntity.status(HttpStatus.OK).body(converter.convert(response));
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
