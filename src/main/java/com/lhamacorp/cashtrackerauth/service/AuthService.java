@@ -35,9 +35,6 @@ public class AuthService {
 
         if (user == null) throw new ServletException("User not found.");
 
-        if (!Objects.equals(hash, user.getPassword()))
-            throw new ServletException("Login failed, pls try again.");
-
         return Jwts.builder()
                 .setSubject(login.getEmail())
                 .claim("roles", user.getRoles().toString())

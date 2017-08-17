@@ -61,6 +61,22 @@ public class AuthServiceTest {
     }
 
     @Test
+    public void deveVerificarSeUsuarioExiste() throws ServletException {
+        User user = new User();
+        user.setUsername("Graciela");
+        user.setPassword("gra");
+
+        when(userService.findByLogin("Graciela", "gra"))
+                .thenReturn(null);
+        try {
+            service.getToken(user);
+            expectedException.expect(ServletException.class);
+        } catch (ServletException e) {
+            assertThat(e.getMessage(), is("User not found."));
+        }
+    }
+
+    @Test
     public void deveVerificarQuandoNulo() {
         try {
             service.getToken(null);
