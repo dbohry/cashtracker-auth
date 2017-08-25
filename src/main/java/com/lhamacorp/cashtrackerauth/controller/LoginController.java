@@ -35,15 +35,23 @@ public class LoginController {
     @CrossOrigin(allowedHeaders = "*")
     @ApiOperation(value = "Inform the parameters to register a new user", response = User.class)
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<UserDTO> register(@RequestBody UserDTO user) {
-        User response = userService.save(converter.convert(user));
+    public ResponseEntity<UserDTO> register(@RequestParam("user") String user,
+                                            @RequestParam("pass") String pass,
+                                            @RequestParam("email") String email) {
+        UserDTO dto = new UserDTO();
+        dto.setUsername(user);
+        dto.setPassword(pass);
+        dto.setEmail(email);
+
+        User response = userService.save(converter.convert(dto));
         return ResponseEntity.status(HttpStatus.OK).body(converter.convert(response));
     }
 
     @CrossOrigin(allowedHeaders = "*")
     @ApiOperation(value = "Inform username and password to get a valid token", response = String.class)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<String> login(@RequestParam("user") String user, @RequestParam("pass") String pass) throws ServletException {
+    public ResponseEntity<String> login(@RequestParam("user") String user,
+                                        @RequestParam("pass") String pass) throws ServletException {
         UserDTO dto = new UserDTO();
         dto.setUsername(user);
         dto.setPassword(pass);
