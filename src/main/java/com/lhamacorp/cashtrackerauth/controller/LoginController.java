@@ -16,7 +16,7 @@ import javax.xml.bind.ValidationException;
 
 @CrossOrigin(origins = "http://localhost", maxAge = 3600)
 @RestController
-@RequestMapping("/ct/login")
+@RequestMapping("/ct/auth")
 public class LoginController {
 
     private UserService userService;
@@ -43,9 +43,13 @@ public class LoginController {
     @CrossOrigin(allowedHeaders = "*")
     @ApiOperation(value = "Inform username and password to get a valid token", response = String.class)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<String> login(@RequestBody UserDTO dto) throws ServletException {
+    public ResponseEntity<String> login(@RequestParam("user") String user, @RequestParam("pass") String pass) throws ServletException {
+        UserDTO dto = new UserDTO();
+        dto.setUsername(user);
+        dto.setPassword(pass);
+
         String response = authService.getToken(converter.convert(dto));
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body("Bearer " + response);
     }
 
 }
